@@ -48,6 +48,7 @@ require_once 'serviceIn/onlinebook/models.php';
 require_once 'serviceIn/onlinebook/citys.php';
 require_once 'serviceIn/onlinebook/carwashes.php';
 require_once 'serviceIn/onlinebook/serTypes.php';
+require_once 'serviceIn/onlinebook/serCats.php';
 require_once 'serviceIn/onlinebook/boxes.php';
 require_once 'serviceIn/onlinebook/clients.php';
 require_once 'serviceIn/onlinebook/f_req.php';

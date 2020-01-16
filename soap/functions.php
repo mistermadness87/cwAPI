@@ -31,6 +31,7 @@ include('func/onlinebook/models.php');
 include('func/onlinebook/citys.php');
 include('func/onlinebook/carwashes.php');
 include('func/onlinebook/serTypes.php');
+include('func/onlinebook/serCats.php');
 include('func/onlinebook/boxes.php');
 include('func/onlinebook/clients.php');
 include('func/onlinebook/f_req.php');

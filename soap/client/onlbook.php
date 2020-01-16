@@ -179,24 +179,13 @@ echo '</pre>';
 
 $req = array(
 	'auth' => 'popo',
-	'marka' => 19,
-	'model' => 314,
-	'carwash' => 2,
-	'box' => 0,
-	'sertype' => 0,
-	'date' => '15.01.2020',
-	'servs' => array(
-		array(
-			'id' => 2, 
-			'qty' => 1
-		),
-	),
+	'param' => ''
 );
 
 echo '<pre>';
 print_r($req);
 echo '</pre>';
-$method = 'avtime';
+$method = 'servs';
 
 try {
 	$response = $client->$method($req);

@@ -1,7 +1,7 @@
 <?php 
 //формирование запроса
 $server->wsdl->addComplexType(
-	'servsReq',
+	'reqSerCat',
 	'complexType',
 	'struct',
 	'all',
@@ -13,7 +13,7 @@ $server->wsdl->addComplexType(
 );
 //формирование ответа
 $server->wsdl->addComplexType(
-	'servout',
+	'sercatid',
 	'complexType',
 	'struct',
 	'all',
@@ -21,24 +21,24 @@ $server->wsdl->addComplexType(
 	array(
 		'id' => array('name' => 'id', 'type' => 'xsd:int'),
 		'name' => array('name' => 'name', 'type' => 'xsd:string'),
-		'tip' => array('name' => 'tip', 'type' => 'xsd:string'),
-		'kategoriya_uslugi' => array('name' => 'kategoriya_uslugi', 'type' => 'xsd:string'),
 	)
 );
+
 $server->wsdl->addComplexType(
-	'servouts',
+	'sercatids',
 	'complexType',
 	'array',
 	'',
 	'SOAP-ENC:Array',
 	array(),
 	array(
-		array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:servout[]')
+		array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:sercatid[]')
 	),
-	'tns:servout'
+	'tns:sercatid'
 );
+
 $server->wsdl->addComplexType(
-	'servsResp',
+	'respSerCat',
 	'complexType',
 	'struct',
 	'all',
@@ -46,17 +46,17 @@ $server->wsdl->addComplexType(
 	array(
 		'state' => array ('name' => 'state', 'type' => 'xsd:int'),
 		'msg' => array('name' => 'msg', 'type' => 'xsd:string'),
-		'servouts' => array('name' => 'servouts', 'type' => 'tns:servouts'),
+		'sercats' => array('name' => 'sercats', 'type' => 'tns:sercatids'),
 	)
 );
 //регистрация метода
-$server->register("servs",
-    array("response" => "tns:servsReq"),
-    array("return" => "tns:servsResp"),
+$server->register("sercats",
+    array("response" => "tns:reqSerCat"),
+    array("return" => "tns:respSerCat"),
     "urn:API",
-    "urn:API#servs",
+    "urn:API#sercats",
     "rpc",
     "encoded",
-    "get services"
+    "gets sercategory"
 );
 ?>

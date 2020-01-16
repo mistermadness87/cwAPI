@@ -1,5 +1,6 @@
 <?php 
-function servs($req) {
+//выборка из таблицы
+function serCats($req) {
 	global $shop;
 	global $password;
 	global $hostname;
@@ -13,10 +14,9 @@ function servs($req) {
 		if(mysqli_num_rows($r)==0){
 			$shown = 0;
 			$arr = array(
+				'msg' => 'пользователь не найден '.$q,
 				'state' => 0,
-				'msg' => "пользователь не найден",
-				'id' => 0,
-				'clid' => 0,
+				'marks' => array(),
 			);			
 		}
 	}
@@ -26,6 +26,7 @@ function servs($req) {
 		$database = "cw_".$row['id'];
 		$username = "cwuser_".$row['id'];
 		$shop = mysqli_connect($hostname, $username, $password, $database) or trigger_error(mysqli_error(),E_USER_ERROR);
+		$table = new table($shop);
 		$wr = "";
 		if($req['param']!=''){
 			//есть условие
@@ -37,7 +38,7 @@ function servs($req) {
 				} else {
 					$wr .= " AND ";
 				}
-				$wr .= "`Services`.`".mysqli_real_escape_string($shop, $k)."`";
+				$wr .= "`".mysqli_real_escape_string($shop, $k)."`";
 				if(is_array($v)){
 					$ii = 0;
 					$wr .= " IN (";
@@ -54,40 +55,21 @@ function servs($req) {
 				$i++;
 			}
 		}
-		$serarr = array();
-		$q = 
-		"
-		SELECT
-			service_types.`name` AS `tpNm`,
-			carwash_ser_cat.`name` AS `catNm`,
-			Services.`name`,
-			Services.id
-		FROM
-			Services
-		INNER JOIN service_types ON service_types.id = Services.tip
-		INNER JOIN carwash_ser_cat ON carwash_ser_cat.id = Services.kategoriya_uslugi
-		".$wr."
-		";
-		//echo $q.'<br />';
-		$r = mysqli_query($shop, $q);
-		while($row=mysqli_fetch_assoc($r)){
-			array_push($serarr, 
-				array(
-					'id' => $row['id'],
-					'name' => $row['name'],
-					'tip' => $row['tpNm'],
-					'kategoriya_uslugi' => $row['catNm']
-				)
-			);		
+		$res = $table->getData($shop, "carwash_ser_cat", $wr);
+		$ress = array();
+		for($i=0;$i<sizeof($res);$i++){
+			$ress[$i] = array(
+				'id' => intval($res[$i]['id']),
+				'name' => $res[$i]['name'],
+			);
 		}
-		mysqli_free_result($r);
-		
 		$arr = array(
 			'state' => 1,
-			'msg' => "Список услуг с типами",
-			'servouts' => $serarr
-		);
+			'msg' => 'список категорий услуг ',
+			'sercats' => $ress
+		);				
 	}
+	
 	return $arr;
 }
 ?>
